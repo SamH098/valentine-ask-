@@ -7,6 +7,7 @@
 
   <style>
     :root { color-scheme: dark; }
+
     body{
       margin:0;
       min-height:100vh;
@@ -29,7 +30,7 @@
       overflow:hidden;
     }
 
-    /* The 2x2 photo grid centered */
+    /* 2x2 grid */
     .grid{
       position:absolute;
       inset:0;
@@ -46,20 +47,27 @@
       object-fit: cover;
       border-radius: 18px;
       border:1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 18px 50px rgba(0,0,0,0.45);
 
+      /* fade-in animation base */
       opacity:0;
       transform: translateY(10px) scale(0.985);
-      transition: opacity 900ms ease, transform 900ms ease;
-      filter: saturate(1.08) contrast(1.05);
+      transition: opacity 900ms ease, transform 900ms ease, box-shadow 900ms ease, filter 900ms ease;
+
+      /* Pro-level romantic look */
+      box-shadow: 0 20px 60px rgba(255, 0, 100, 0.25);
+      filter: saturate(1.12) contrast(1.06);
+      cursor: zoom-in;
     }
 
     .photo.show{
       opacity:1;
       transform: translateY(0) scale(1);
+
+      /* slightly stronger glow once shown */
+      box-shadow: 0 26px 80px rgba(255, 0, 120, 0.32);
     }
 
-    /* Text overlay */
+    /* Message overlay */
     .message{
       position:absolute;
       inset:0;
@@ -87,16 +95,42 @@
       line-height:1.1;
       font-size: clamp(28px, 4vw, 54px);
       color: #fff;
-      text-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      text-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 28px rgba(255, 0, 120, 0.35);
     }
 
-    /* Optional little hearts */
-    .hearts{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      opacity:0.55;
-      mix-blend-mode: screen;
+    /* Lightbox overlay */
+    .lightbox{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 999;
+      padding: 18px;
+    }
+
+    .lightbox.show{
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox img{
+      max-width: 92vw;
+      max-height: 86vh;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 30px 100px rgba(255,0,120,0.35);
+      transform: scale(0.85);
+      transition: transform 0.4s ease;
+      cursor: zoom-out;
+    }
+
+    .lightbox.show img{
+      transform: scale(1);
     }
   </style>
 </head>
@@ -115,8 +149,13 @@
     </div>
   </div>
 
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <img id="lightboxImg" src="" alt="Expanded view">
+  </div>
+
   <script>
-    // If your file is truly named c.gpg, change "c.jpg" to "c.gpg" above.
+    // Fade-in sequence
     const photos = [
       document.getElementById("p1"),
       document.getElementById("p2"),
@@ -125,17 +164,41 @@
     ];
     const msg = document.getElementById("msg");
 
-    // Staggered fade-in
-    const stepMs = 700;  // time between each photo showing
+    const stepMs = 700;
     const startDelay = 250;
 
     photos.forEach((img, i) => {
       setTimeout(() => img.classList.add("show"), startDelay + i * stepMs);
     });
 
-    // Show text after the last image animates in
     const total = startDelay + (photos.length - 1) * stepMs + 950;
     setTimeout(() => msg.classList.add("show"), total);
+
+    // Lightbox (click to expand)
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+
+    document.querySelectorAll(".photo").forEach(img => {
+      img.addEventListener("click", () => {
+        lightboxImg.src = img.src;
+        lightbox.classList.add("show");
+        lightbox.setAttribute("aria-hidden", "false");
+      });
+    });
+
+    // Close on click outside
+    lightbox.addEventListener("click", () => {
+      lightbox.classList.remove("show");
+      lightbox.setAttribute("aria-hidden", "true");
+    });
+
+    // Close on ESC
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        lightbox.classList.remove("show");
+        lightbox.setAttribute("aria-hidden", "true");
+      }
+    });
   </script>
 </body>
 </html>
