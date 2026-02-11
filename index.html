@@ -1,191 +1,180 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Yes or No</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Choose Wisely 😈</title>
 
-  <style>
-    :root { color-scheme: dark; }
+<style>
+:root { color-scheme: dark; }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(circle at top, #242424, #0e0e0e);
-      color: #fff;
-      overflow: hidden;
-    }
+body{
+  margin:0;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:#0e0e0e;
+  overflow:hidden;
+}
 
-    .card {
-      width: min(560px, 92vw);
-      padding: 28px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 18px 60px rgba(0,0,0,0.45);
-      text-align: center;
-      position: relative;
-    }
+/* Background Reveal */
+#bgReveal{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 
-    h1 { margin: 0 0 18px; font-size: 28px; }
-    p  { margin: 0 0 22px; opacity: 0.85; }
+  opacity: 0;
+  transition: opacity 0.8s ease, filter 0.8s ease;
+  filter: brightness(0.75) blur(8px);
+}
 
-    .btns {
-      position: relative;
-      height: 140px;
-    }
+/* Main Card */
+.card{
+  width:min(560px,92vw);
+  padding:28px;
+  border-radius:18px;
+  background:rgba(0,0,0,0.6);
+  border:1px solid rgba(255,255,255,0.15);
+  box-shadow:0 25px 80px rgba(0,0,0,0.6);
+  text-align:center;
+  position:relative;
+  z-index:2;
+  backdrop-filter: blur(6px);
+}
 
-    button {
-      border: 0;
-      padding: 12px 18px;
-      border-radius: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 16px;
-      transition: transform .08s ease;
-      position: absolute;
-    }
+h1{ margin:0 0 18px; font-size:28px; }
+p{ margin:0 0 22px; opacity:0.85; }
 
-    .yes {
-      background: #2ecc71;
-      color: #0b1a10;
-      left: 50%;
-      transform: translateX(-120%);
-    }
+.btns{
+  position:relative;
+  height:140px;
+}
 
-    .no {
-      background: #ff4d4d;
-      color: #2a0b0b;
-      left: 50%;
-      transform: translateX(20%);
-    }
+/* Buttons */
+button{
+  border:0;
+  padding:12px 20px;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+  font-size:16px;
+  position:absolute;
+  transition: all .2s ease;
+}
 
-    /* Modal */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.75);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      z-index: 999;
-    }
-    .overlay.show { display: flex; }
+.yes{
+  background:#2ecc71;
+  color:#111;
+  left:50%;
+  transform:translateX(-120%);
+}
 
-    .modal {
-      width: min(520px, 96vw);
-      background: rgba(20,20,20,0.96);
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.15);
-      box-shadow: 0 25px 80px rgba(0,0,0,0.6);
-      text-align: center;
-    }
+.no{
+  background:#ff4d4d;
+  color:#111;
+  left:50%;
+  transform:translateX(20%);
+}
 
-    .modal header {
-      padding: 14px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .modal img {
-      width: 100%;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      margin: 18px 0;
-    }
-
-    .ok {
-      margin: 0 18px 18px;
-      width: calc(100% - 36px);
-      background: #fff;
-      color: #111;
-      padding: 12px;
-      border-radius: 12px;
-      font-weight: 800;
-    }
-  </style>
+/* Resistance message */
+#resistMsg{
+  margin-top:18px;
+  opacity:0;
+  transition:opacity .5s ease;
+  font-weight:600;
+  color:#ff9eb5;
+}
+</style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>Would you be my valentine?</h1>
-    <p>Choose wisely 😏</p>
 
-    <div class="btns" id="arena">
-      <button class="yes" id="yesBtn">Yes</button>
-      <button class="no" id="noBtn">No</button>
-    </div>
+<img id="bgReveal" src="aa.jpg" alt="Hidden Love">
+
+<div class="card">
+  <h1>Will you be my Valentine? ❤️</h1>
+  <p>Choose wisely 😏</p>
+
+  <div class="btns" id="arena">
+    <button class="yes" id="yesBtn">Yes</button>
+    <button class="no" id="noBtn">No</button>
   </div>
 
-  <!-- GIF Modal -->
-  <div class="overlay" id="overlay">
-    <div class="modal">
-      <header>
-        <strong>Are you sure about that?</strong>
-        <button id="closeBtn">✕</button>
-      </header>
-      <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" />
-      <button class="ok" id="okBtn">Okay okay 😭</button>
-    </div>
-  </div>
+  <div id="resistMsg">Just click yes already 😭</div>
+</div>
 
 <script>
-  const yesBtn = document.getElementById("yesBtn");
-  // ...keep the rest of your existing code
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const arena = document.getElementById("arena");
+const bgReveal = document.getElementById("bgReveal");
+const resistMsg = document.getElementById("resistMsg");
 
-  yesBtn.addEventListener("click", () => {
-    window.location.href = "love.html";
-  });
+let revealLevel = 0;
+const maxReveal = 6;
+
+function moveNoButton(){
+  const arenaRect = arena.getBoundingClientRect();
+  const btnRect = noBtn.getBoundingClientRect();
+
+  const maxX = arenaRect.width - btnRect.width;
+  const maxY = arenaRect.height - btnRect.height;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+function increaseReveal(){
+  if(revealLevel < maxReveal){
+    revealLevel++;
+
+    const newOpacity = revealLevel / maxReveal;
+    const newBlur = 8 - (revealLevel * 1.2);
+
+    bgReveal.style.opacity = newOpacity;
+    bgReveal.style.filter = `brightness(0.85) blur(${Math.max(newBlur,0)}px)`;
+
+    /* Make Yes button grow slightly */
+    const scale = 1 + (revealLevel * 0.05);
+    yesBtn.style.transform = `translateX(-120%) scale(${scale})`;
+
+    /* Show resistance message */
+    if(revealLevel >= 3){
+      resistMsg.style.opacity = 1;
+    }
+  }
+}
+
+/* Runaway behavior */
+noBtn.addEventListener("mouseenter", () => {
+  moveNoButton();
+  increaseReveal();
+});
+
+noBtn.addEventListener("touchstart", (e)=>{
+  e.preventDefault();
+  moveNoButton();
+  increaseReveal();
+});
+
+/* If they somehow click No */
+noBtn.addEventListener("click",(e)=>{
+  e.preventDefault();
+  increaseReveal();
+});
+
+/* Yes button redirects */
+yesBtn.addEventListener("click",()=>{
+  window.location.href = "love.html";
+});
 </script>
 
-
-  <script>
-    const noBtn = document.getElementById("noBtn");
-    const arena = document.getElementById("arena");
-    const overlay = document.getElementById("overlay");
-    const closeBtn = document.getElementById("closeBtn");
-    const okBtn = document.getElementById("okBtn");
-
-    function moveNoButton() {
-      const arenaRect = arena.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
-
-      const maxX = arenaRect.width - btnRect.width;
-      const maxY = arenaRect.height - btnRect.height;
-
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    }
-
-    // Run away on hover (desktop)
-    noBtn.addEventListener("mouseenter", moveNoButton);
-
-    // Run away on tap attempt (mobile)
-    noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      moveNoButton();
-    });
-
-    // If they actually manage to click it…
-    noBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      overlay.classList.add("show");
-    });
-
-    closeBtn.onclick = okBtn.onclick = () => {
-      overlay.classList.remove("show");
-    };
-  </script>
 </body>
 </html>
-
